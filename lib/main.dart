@@ -10,36 +10,43 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TabBar myTabBar = TabBar(
+      indicator: BoxDecoration(
+        color: Colors.indigo,
+        border: Border(bottom: BorderSide(color: Colors.white)),
+      ),
+      tabs: [
+        Tab(
+          icon: Icon(Icons.comment),
+          text: 'comments',
+        ),
+        Tab(
+          icon: Icon(Icons.email),
+          text: 'email',
+        ),
+        Tab(
+          icon: Icon(Icons.save),
+          text: 'saved',
+        )
+      ],
+    );
+
     return MaterialApp(
       home: DefaultTabController(
-        length: 4,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.amber,
             title: Text('Latihan Tab Bar Layout'),
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.comment),
-                  text: 'comments',
-                ),
-                Tab(
-                  child: Image(
-                    image: NetworkImage(
-                        'https://cdn1.iconfinder.com/data/icons/logos-brands-in-colors/231/among-us-player-white-512.png'),
-                  ),
-                ),
-                Tab(text: 'Tab 3',),
-                Tab(icon: Icon(Icons.email), text: 'Tab 4',),
-              ],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(myTabBar.preferredSize.height),
+              child: Container(color: Colors.amber, child: myTabBar),
             ),
           ),
           body: TabBarView(
-            children: <Widget>[
-              TabView(color: Colors.red, text: 'This is Tab 1'),
-              TabView(color: Colors.blue, text: 'This is Tab 2'),
-              TabView(color: Colors.purple, text: 'This is Tab 3'),
-              TabView(color: Colors.green, text: 'This is Tab 4'),
+            children: [
+              TabView(color: Colors.green, text: 'This is Tab 1'),
+              TabView(color: Colors.red, text: 'This is Tab 2'),
+              TabView(color: Colors.blue, text: 'This is Tab 3'),
             ],
           ),
         ),

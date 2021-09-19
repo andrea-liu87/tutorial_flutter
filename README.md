@@ -1,1 +1,4 @@
-## 27. Tab Bar Layout
+## 27. Mengubah tampilan Tab Bar
+        - Background color
+        - Tab highlight
+        - Tab indicator line
