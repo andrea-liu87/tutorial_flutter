@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_flutter/postresult.dart';
+import 'user.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Http request (POST method)'),
+          title: Text('Http request (Kumpulan data)'),
         ),
         body: MyHomePage(),
       ),
@@ -29,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  PostResult postResult = null;
+  String output = "tidak ada data";
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +38,15 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text((postResult != null)
-              ? postResult.id +
-                  " | " +
-                  postResult.name +
-                  " | " +
-                  postResult.job +
-                  " | " +
-                  postResult.createdAt
-              : 'PostResult still null'),
+          Text(output),
           RaisedButton(
             onPressed: () {
-              PostResult.connectToApi('Badu', 'Engineer').then((value){ postResult =  value;});
+              User.connectToAPI('2').then((value){
+              for (int i = 0; i<value.length; i++){
+                output = output + "[" + value[i].name + "]";
+              }
               setState(() {});
+              });
             },
             child: Text('Connect'),
           ),
