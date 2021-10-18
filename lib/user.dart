@@ -15,7 +15,7 @@ class User{
   }
 
   static Future<List<User>> connectToAPI(String id) async{
-    List<User> user;
+    List<User> user = [];
     String APIUrl = 'https://reqres.in/api/users?page='+id;
 
     var APIresult = await http.get(APIUrl);
