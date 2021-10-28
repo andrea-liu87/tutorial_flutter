@@ -1,41 +1,18 @@
-import 'dart:async';
-
-import 'package:async/async.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
-enum ColorEvent { to_amber, to_LightBlue }
+enum ColorEvent{ to_amber, to_lightblue}
 
-class ColorBloc {
-  Color _color = Colors.amber;
+class ColorBloc extends Bloc<ColorEvent, Color>{
+  Color _color;
 
-  StreamController<ColorEvent> _eventController =
-      new StreamController<ColorEvent>();
-
-  StreamSink<ColorEvent> get eventSink => _eventController.sink;
-
-  StreamController<Color> _stateController = new StreamController<Color>();
-
-  StreamSink<Color> get _colorSink => _stateController.sink;
-
-  Stream<Color> get colorState => _stateController.stream;
-
-  void _eventMapToState(ColorEvent colorEvent) {
-    if (colorEvent == ColorEvent.to_amber) {
-      _color = Colors.amber;
-    } else {
-      _color = Colors.lightBlue;
-    }
-    _colorSink.add(_color);
+  ColorBloc(Color initialState) : super(initialState){
+    _color = initialState;
   }
 
-  ColorBloc() {
-    _eventController.stream.listen((event) {
-      _eventMapToState(event);
-    });
-  }
-
-  void dispose() {
-    _eventController.close();
-    _stateController.close();
+  @override
+  Stream<Color> mapEventToState(ColorEvent event) async*{
+    _color = (event == ColorEvent.to_amber) ? Colors.amber : Colors.lightBlue;
+    yield _color;
   }
 }

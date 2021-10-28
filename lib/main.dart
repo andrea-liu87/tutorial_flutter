@@ -1,62 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutorial_flutter/color_bloc.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  ColorBloc colorBloc = new ColorBloc();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('BLoC tanpa library'),
-        ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-                backgroundColor: Colors.amber, onPressed: () {
-                  colorBloc.eventSink.add(ColorEvent.to_amber);
-            }),
-            SizedBox(
-              width: 10,
-              height: 10,
-            ),
-            FloatingActionButton(
-                backgroundColor: Colors.lightBlue, onPressed: () {
-                  colorBloc.eventSink.add(ColorEvent.to_LightBlue);
-            }),
-          ],
-        ),
-        body: Center(
-          child: StreamBuilder(
-            initialData: Colors.lightBlue,
-            stream: colorBloc.colorState,
-            builder:(context, snapshot) => AnimatedContainer(
-              duration: Duration(seconds: 2),
-              width: 100,
-              height: 100,
-              color: snapshot.data,
-            ),
+      home: BlocProvider(
+        create: (context) => ColorBloc(Colors.amber),
+        child: MainPage(),
+      ),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ColorBloc cBloc = BlocProvider.of<ColorBloc>(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter BLoC'),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+              backgroundColor: Colors.amber, onPressed: () {
+            cBloc.add(ColorEvent.to_amber);
+          }),
+          SizedBox(
+            width: 10,
+            height: 10,
+          ),
+          FloatingActionButton(
+              backgroundColor: Colors.lightBlue, onPressed: () {
+            cBloc.add(ColorEvent.to_lightblue);
+          }),
+        ],
+      ),
+      body: Center(
+        child: BlocBuilder<ColorBloc, Color>(
+          builder:(context, colorState) => AnimatedContainer(
+            duration: Duration(seconds: 2),
+            width: 100,
+            height: 100,
+            color: colorState,
           ),
         ),
       ),
     );
   }
-
-  @override
-  void dispose() {
-    colorBloc.dispose();
-  }
 }
+
+
