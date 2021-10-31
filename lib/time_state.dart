@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class TimeState with ChangeNotifier {
-  int _timer;
+  int _timer = 15;
 
   int get timer => _timer;
 
