@@ -1,5 +1,12 @@
-import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 
-class TimeState with ChangeNotifierProvider {
+class TimeState with ChangeNotifier {
+  int _timer;
 
+  int get timer => _timer;
+
+  set timer(int value) {
+    _timer = value;
+    notifyListeners();
+  }
 }
