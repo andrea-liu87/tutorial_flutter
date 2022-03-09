@@ -1,13 +1,10 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 enum ColorEvent{ to_amber, to_lightblue}
 
 class ColorBloc extends HydratedBloc<ColorEvent, Color>{
-
-  @override
-  Color get initialState => super.initialState ?? Colors.amber;
+  ColorBloc() : super(Colors.amber);
 
   @override
   Stream<Color> mapEventToState(ColorEvent event) async*{
