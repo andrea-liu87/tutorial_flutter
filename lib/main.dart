@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutorial_flutter/color_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:bloc/bloc.dart';
 
-void main() {
+void main() async {
+  BlocSupervisor.delegate = await HydratedBlocDelegate.build();
   runApp(MyApp());
 }
 
@@ -12,8 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider(
-        create: (context) => ColorBloc(Colors.amber),
+      home: BlocProvider<ColorBloc>(
+        builder: (context) => ColorBloc(),
         child: MainPage(),
       ),
     );
@@ -35,7 +38,7 @@ class MainPage extends StatelessWidget {
         children: [
           FloatingActionButton(
               backgroundColor: Colors.amber, onPressed: () {
-            cBloc.add(ColorEvent.to_amber);
+            cBloc.onEvent(ColorEvent.to_amber);
           }),
           SizedBox(
             width: 10,
@@ -43,7 +46,7 @@ class MainPage extends StatelessWidget {
           ),
           FloatingActionButton(
               backgroundColor: Colors.lightBlue, onPressed: () {
-            cBloc.add(ColorEvent.to_lightblue);
+            cBloc.onEvent(ColorEvent.to_lightblue);
           }),
         ],
       ),
